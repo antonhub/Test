@@ -8,17 +8,19 @@ use App\Entity\Country;
 use App\Repository\CountryRepository;
 use Psr\Cache\InvalidArgumentException;
 
-class CountryService
+readonly class CountryService implements CountryServiceInterface
 {
     public function __construct(
-        private readonly CountryRepository $countryRepository,
-        private readonly CacheService      $cacheService,
+        private CountryRepository $countryRepository,
+        private CacheService      $cacheService,
     ) {}
 
     /**
      * Checking whether a given alpha2 country code is part of EU or not
      *
+     * @param string $alpha2
      * @return bool
+     * @throws InvalidArgumentException
      */
     public function checkEuByAlpha2(string $alpha2): bool
     {

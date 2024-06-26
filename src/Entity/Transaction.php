@@ -6,7 +6,7 @@ class Transaction
 {
     private ?string $bin = null;
 
-    private ?string $amount = null;
+    private ?float $amount = null;
 
     private ?string $currency = null;
 
@@ -22,12 +22,12 @@ class Transaction
         return $this;
     }
 
-    public function getAmount(): ?string
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(float $amount): static
     {
         $this->amount = $amount;
 

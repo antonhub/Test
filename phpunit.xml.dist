@@ -27,6 +27,11 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory>tests</directory>
+            <directory>src/DataFixtures</directory>
+            <directory>src/Entity</directory>
+        </exclude>
     </coverage>
 
     <listeners>
@@ -34,5 +39,6 @@
     </listeners>
 
     <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/>
     </extensions>
 </phpunit>

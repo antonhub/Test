@@ -5,30 +5,26 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Transaction;
-use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class CommissionService
 {
-    private const EU_COMMISSION_RATE = 0.01;
-    private const N0N_EU_COMMISSION_RATE = 0.02;
+    // TODO depending on requirements consider to move it to app config or DB
+    public final const EU_COMMISSION_RATE = 0.01;
+    public final const N0N_EU_COMMISSION_RATE = 0.02;
 
     public function __construct(
-        private CountryService      $countryService,
-        private BinLookupService    $binLookupService,
-        private TransactionsService $transactionsService,
+        private readonly CountryServiceInterface     $countryService,
+        private readonly BinLookupServiceInterface   $binLookupService,
+        private readonly TransactionServiceInterface $transactionsService,
     ) {}
 
     /**
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
-     * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
-     * @throws \JsonException
-     * @throws InvalidArgumentException
      */
     final public function calculateCommissionAmountInEur(Transaction $transaction): ?float
     {
@@ -51,10 +47,7 @@ class CommissionService
     /**
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
-     * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
-     * @throws \JsonException
-     * @throws InvalidArgumentException
      */
     private function getCommissionRateByBin(string $bin): float
     {

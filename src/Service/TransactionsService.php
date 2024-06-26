@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class TransactionsService
+class TransactionsService implements TransactionServiceInterface
 {
     /**
      * Encoding type of the transactions file
@@ -27,7 +27,7 @@ class TransactionsService
      *
      * @param string $filePath
      * @return ?array
-     *@todo implement and use TransactionCollection instead of array of Objects
+     * @todo implement and use TransactionCollection instead of array of Objects
      *
      */
     final public function processTransactionsFile(string $filePath): ?array
