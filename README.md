@@ -19,7 +19,7 @@ Now you can run the console command to calculate the commissions:
 
 ## Unit tests
 Run unit tests by `php bin/phpunit tests`  
-I've added just one simple unit test so far.  
+I've added just 2 simple unit test so far.  
 The fixtures are configured and added.  
 To create you test environment DB, create tables and populate it with fixtures:  
 `php bin/console --env=test doctrine:database:create`  

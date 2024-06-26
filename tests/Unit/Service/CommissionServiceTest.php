@@ -66,9 +66,6 @@ class CommissionServiceTest extends KernelTestCase
 
     public function allCommissionDataProvider(): array
     {
-//        $nonEuRate = CommissionService::N0N_EU_COMMISSION_RATE;
-//        $euRate = CommissionService::EU_COMMISSION_RATE;
-
         return [
             ['NL', true, 11.1, $this->roundCommission(11.1, true)],
             ['UA', false, 22.22, $this->roundCommission(22.22)],
