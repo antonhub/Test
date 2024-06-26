@@ -29,7 +29,6 @@ class CommissionsCommand extends Command
 
     // @todo use translation
     private const COMMAND_TITLE = 'Processing transactions...';
-    private const ERROR_MESSAGE = 'File reading failure ...';
     private const INPUT_ARGUMENT_MESSAGE = 'Transactions file name: ';
     private const COMMAND_PROGRESS_NOTE = 'Reading file "%s"...';
     private const NOTHING_TO_PROCESS_WARNING_MESSAGE = 'Nothing to process!';
@@ -83,6 +82,7 @@ class CommissionsCommand extends Command
         }
 
         $io->progressStart(count($transactions));
+        $io->newLine();
 
         $results = [];
         $errors = [];

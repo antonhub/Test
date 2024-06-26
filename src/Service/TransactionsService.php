@@ -132,6 +132,11 @@ class TransactionsService implements TransactionServiceInterface
             return null;
         }
 
-        return $this->serializer->deserialize($transactionJson, Transaction::class, self::ENCODING_TYPE);
+        return $this->serializer->deserialize(
+            $transactionJson,
+            Transaction::class,
+            self::ENCODING_TYPE,
+            ['disable_type_enforcement' => true]
+        );
     }
 }
