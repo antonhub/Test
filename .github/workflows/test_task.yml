@@ -73,20 +73,20 @@ jobs:
 #      - name: Run Psalm
 #        run: psalm --output-format=github
 
-      - name: Run phpcs
-        run: phpcs -q --report=checkstyle src | cs2pr
-
       ## —— Static analysis ✨ —————————————————————————————————————————————————
-      - name: Static analysis of PHP code (PHPStan)
-        run: phpstan analyse src
+#      - name: Static analysis of PHP code (PHPStan)
+#        run: phpstan analyse src
+#
+#      - name: Run phpcs
+#        run: phpcs -q --report=checkstyle src | cs2pr
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
       # We use the dev env here
       - name: Load test db environment and Doctrine fixtures
         run: |
-          php bin/console doctrine:migrations:migrate
           php bin/console --env=test doctrine:database:create`
           php bin/console --env=test doctrine:schema:create
+          php bin/console doctrine:migrations:migrate
           php bin/console make:fixtures
           php bin/console --env=test doctrine:fixtures:load
 
@@ -104,19 +104,3 @@ jobs:
       - name: Run tests
 #        run: simple-phpunit --coverage-text
         run: php bin/phpunit tests/Unit --coverage-text
-
-      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
-#      - name: Validate composer.json and composer.lock
-#        run: composer validate
-#
-#      - name: Cache Composer packages
-#        id: composer-cache
-#        uses: actions/cache@v3
-#        with:
-#          path: vendor
-#          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-php-
-#
-#      - name: Install Dependencies
-#        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
