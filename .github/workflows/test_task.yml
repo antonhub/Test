@@ -1,7 +1,7 @@
 # https://help.github.com/en/actions
 name: CI process for my test task
 on:
-  push:
+  pull_request:
 
 env:
   ES_HTTP_PORT: 9209
