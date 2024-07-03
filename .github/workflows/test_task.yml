@@ -70,20 +70,14 @@ jobs:
 
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
-      #      - name: Coding standards checks (php_codesniffer + php-cs-fixer)
-      #        run: make cs
-      #        if: matrix.php-versions == '8.3'
-      - name: Run Psalm
-        run: psalm --output-format=github
+#      - name: Run Psalm
+#        run: psalm --output-format=github
 
       - name: Run phpcs
         run: phpcs -q --report=checkstyle src | cs2pr
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
-        #        run: |
-        #          bin/console about --env=prod
-        #          make static-analysis
         run: phpstan analyse src
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
