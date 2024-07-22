@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * TODO implement a parent class and child classes for each neded currency
  */
-class CurrencyExchangeService
+class CurrencyExchangeService implements CurrencyExchangeServiceInterface
 {
     private ?bool $isServiceAvailable = null;
     private array $euroExchangeRatesArr = [];
@@ -22,7 +22,8 @@ class CurrencyExchangeService
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
         private readonly HttpClientInterface   $httpClient,
-    ) {}
+    ) {
+    }
 
     /**
      * Getting the service status since it depends on the availability of the online service we're calling
@@ -53,7 +54,7 @@ class CurrencyExchangeService
     final public function getEuroInverseExchangeRateByAlphaCode(string $currencyAlphaCode): ?float
     {
         // not valid currency alpha code
-        if ( strlen($currencyAlphaCode) !== 3 ) {
+        if (strlen($currencyAlphaCode) !== 3) {
             return null;
         }
 
@@ -61,13 +62,13 @@ class CurrencyExchangeService
 
         $euroExchangeRates = $this->getEuroExchangeRates();
 
-        if ( ! isset( $euroExchangeRates[$currencyAlphaCode] ) ) {
+        if (!isset($euroExchangeRates[$currencyAlphaCode])) {
             return null;
         }
 
         $exchangeRateArr = $euroExchangeRates[$currencyAlphaCode];
 
-        if ( ! isset( $exchangeRateArr['inverseRate'] ) ) {
+        if (!isset($exchangeRateArr['inverseRate'])) {
             return null;
         }
 
@@ -83,7 +84,7 @@ class CurrencyExchangeService
      */
     private function getEuroExchangeRates(): ?array
     {
-        if ( $this->isServiceAvailable === null ) {
+        if ($this->isServiceAvailable === null) {
             // TODO replace it with cache
             $this->init();
         }
@@ -102,7 +103,7 @@ class CurrencyExchangeService
     private function init(): void
     {
         // the service is already initialized
-        if ( $this->isServiceAvailable !== null ) {
+        if ($this->isServiceAvailable !== null) {
             return;
         }
 
@@ -112,7 +113,7 @@ class CurrencyExchangeService
         $euroExchangeRatesUrl = $this->parameterBag->get('euro_exchange_feed_url');
 
         if (
-            ! is_string($euroExchangeRatesUrl)
+            !is_string($euroExchangeRatesUrl)
             || empty($euroExchangeRatesUrl)
         ) {
             return;
@@ -129,12 +130,12 @@ class CurrencyExchangeService
         // something went wrong
         if (
             $response->getStatusCode() !== 200
-            || ! json_validate( $responseContent )
+            || !json_validate($responseContent)
         ) {
             return;
         }
 
-        $ratesContentArr = json_decode( $responseContent, true );
+        $ratesContentArr = json_decode($responseContent, true);
 
         if (
             empty($ratesContentArr)

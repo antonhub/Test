@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Service\CommissionService;
+use App\Service\TransactionsInputDataSerializerInterface;
 use App\Service\TransactionsService;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -34,9 +35,10 @@ class CommissionsCommand extends Command
     private const NOTHING_TO_PROCESS_WARNING_MESSAGE = 'Nothing to process!';
 
     public function __construct(
-        private CommissionService   $commissionService,
-        private TransactionsService $transactionsService,
-    ){
+        private CommissionService                        $commissionService,
+        private TransactionsService                      $transactionsService,
+        private TransactionsInputDataSerializerInterface $transactionsInputDataSerializer,
+    ) {
         parent::__construct();
     }
 
@@ -73,9 +75,9 @@ class CommissionsCommand extends Command
         );
 
         // array of Transaction entities (property objects)
-        $transactions = $this->transactionsService->processTransactionsFile($filePath);
+        $transactions = $this->transactionsInputDataSerializer->processTransactionsFile($filePath);
 
-        if ( empty($transactions) ) {
+        if (empty($transactions)) {
             $io->warning(self::NOTHING_TO_PROCESS_WARNING_MESSAGE);
 
             return self::INVALID;
@@ -99,13 +101,13 @@ class CommissionsCommand extends Command
         }
 
         // print the calculated commission for each transaction
-        if ( ! empty($results) ) {
+        if (!empty($results)) {
             // TODO experiment with $io->block styling
             $io->listing($results);
         }
 
         // print any possible exception message
-        if ( ! empty($errors) ) {
+        if (!empty($errors)) {
             $io->error($errors);
             $io->listing($results);
         }
