@@ -6,7 +6,5 @@ namespace App\Service;
 
 interface CountryServiceInterface
 {
-    public function isServiceAvailable(): bool;
-
-    public function getEuroInverseExchangeRateByAlphaCode(string $currencyAlphaCode): ?float;
+    public function checkEuByAlpha2(string $alpha2): bool;
 }
